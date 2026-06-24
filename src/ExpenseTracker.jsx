@@ -1,12 +1,10 @@
-import { useState } from 'react';
-import { useTheme } from './ThemeContext';
+import { useState } from "react";
 
 export const ExpenseTracker = ({ usdToIls, loadingRate }) => {
-  const { isDarkMode, toggleTheme } = useTheme();
   const [expenses, setExpenses] = useState([]);
-  const [title, setTitle] = useState('');
-  const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState('عام');
+  const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState("");
+  const [category, setCategory] = useState("عام");
 
   const handleAddExpense = (e) => {
     e.preventDefault();
@@ -18,59 +16,81 @@ export const ExpenseTracker = ({ usdToIls, loadingRate }) => {
       amountInUsd: parseFloat(amount),
       amountInIls: parseFloat(amount) * usdToIls,
       category: category,
-      date: new Date().toLocaleDateString('ar-EG', { hour: '2-digit', minute: '2-digit' })
+      date: new Date().toLocaleDateString("ar-EG", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
     };
 
     setExpenses([newExpense, ...expenses]);
-    setTitle('');
-    setAmount('');
+    setTitle("");
+    setAmount("");
   };
 
   const handleDeleteExpense = (id) => {
-    setExpenses(expenses.filter(item => item.id !== id));
+    setExpenses(expenses.filter((item) => item.id !== id));
   };
 
   const totalUsd = expenses.reduce((sum, item) => sum + item.amountInUsd, 0);
   const totalIls = expenses.reduce((sum, item) => sum + item.amountInIls, 0);
 
   return (
-    <div className={`expense-container ${isDarkMode ? 'dark' : 'light'}`}>
-      
-      <header className="tracker-header">
-        <h2>📊 حاسبة النفقات ومحول العملات اللحظي</h2>
-        <button onClick={toggleTheme} className="theme-toggle-btn">
-          {isDarkMode ? '☀️ الوضع الفاتح' : '🌙 الوضع الداكن'}
-        </button>
-      </header>
-      
+    <div className="expense-container">
       <div className="currency-badge">
-        💵 سعر صرف الدولار الحالي: 
-        <span> {loadingRate ? "جاري التحديث..." : `${usdToIls.toFixed(2)} شيكل`}</span>
+        💵 سعر صرف الدولار الحالي:
+        <span>
+          {" "}
+          {loadingRate ? "جاري التحديث..." : `${usdToIls.toFixed(2)} شيكل`}
+        </span>
       </div>
 
       <form onSubmit={handleAddExpense} className="expense-form">
         <div className="form-group">
           <label>بيان المصروف</label>
-          <input type="text" placeholder="مثلا: اشتراك إنترنت..." value={title} onChange={(e) => setTitle(e.target.value)} required />
+          <input
+            type="text"
+            placeholder="مثلا: اشتراك إنترنت..."
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
         </div>
         <div className="form-group">
           <label>المبلغ ($)</label>
-          <input type="number" step="0.01" placeholder="0.00" value={amount} onChange={(e) => setAmount(e.target.value)} required />
+          <input
+            type="number"
+            step="0.01"
+            placeholder="0.00"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            required
+          />
         </div>
         <div className="form-group">
           <label>الفئة</label>
-          <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
             <option value="عام">عام</option>
             <option value="دراسة">دراسة وعمل</option>
             <option value="طعام">طعام ومشتريات</option>
           </select>
         </div>
-        <button type="submit" className="add-btn">➕ إضافة</button>
+        <button type="submit" className="add-btn">
+          ➕ إضافة
+        </button>
       </form>
 
       <div className="totals-board">
-        <div className="total-box usd"><p>الإجمالي ($)</p><h3>${totalUsd.toFixed(2)}</h3></div>
-        <div className="total-box ils"><p>الإجمالي (شيكل)</p><h3>₪{totalIls.toFixed(2)}</h3></div>
+        <div className="total-box usd">
+          <p>الإجمالي ($)</p>
+          <h3>${totalUsd.toFixed(2)}</h3>
+        </div>
+        <div className="total-box ils">
+          <p>الإجمالي (شيكل)</p>
+          <h3>₪{totalIls.toFixed(2)}</h3>
+        </div>
       </div>
 
       <div className="expenses-list">
@@ -93,11 +113,26 @@ export const ExpenseTracker = ({ usdToIls, loadingRate }) => {
                 {expenses.map((item) => (
                   <tr key={item.id}>
                     <td>{item.title}</td>
-                    <td><span className={`badge ${item.category}`}>{item.category}</span></td>
+                    <td>
+                      <span className={`badge ${item.category}`}>
+                        {item.category}
+                      </span>
+                    </td>
                     <td>{item.date}</td>
-                    <td className="price-usd">${item.amountInUsd.toFixed(2)}</td>
-                    <td className="price-ils">₪{item.amountInIls.toFixed(2)}</td>
-                    <td><button onClick={() => handleDeleteExpense(item.id)} className="delete-btn">🗑️</button></td>
+                    <td className="price-usd">
+                      ${item.amountInUsd.toFixed(2)}
+                    </td>
+                    <td className="price-ils">
+                      ₪{item.amountInIls.toFixed(2)}
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => handleDeleteExpense(item.id)}
+                        className="delete-btn"
+                      >
+                        🗑️
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

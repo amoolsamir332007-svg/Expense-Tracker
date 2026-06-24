@@ -1,7 +1,9 @@
 import { ThemeProvider } from './ThemeContext';
 import { useCurrencyApi } from './ApiComponent';
+import { Navbar } from './Navbar';
 import { ExpenseTracker } from './ExpenseTracker';
-import './FullProject.css'; 
+import { Footer } from './Footer';
+import './FullProject.css';
 
 export const FullExpenseProject = () => {
   const { usdToIls, loading } = useCurrencyApi();
@@ -9,7 +11,11 @@ export const FullExpenseProject = () => {
   return (
     <ThemeProvider>
       <div className="app-wrapper">
-        <ExpenseTracker usdToIls={usdToIls} loadingRate={loading} />
+        <Navbar />
+        <main className="main-content">
+          <ExpenseTracker usdToIls={usdToIls} loadingRate={loading} />
+        </main>
+        <Footer />
       </div>
     </ThemeProvider>
   );

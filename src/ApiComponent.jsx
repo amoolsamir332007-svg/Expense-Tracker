@@ -14,8 +14,8 @@ export const useCurrencyApi = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.error("فشل جلب الأسعار، تم استخدام السعر الافتراضي:", err);
-        setLoadingRate(false);
+        console.error("فشل جلب أسعار العملات، تم استخدام السعر الافتراضي:", err);
+        setLoading(false);
       });
   }, []);
 
